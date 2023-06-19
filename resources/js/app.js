@@ -1,6 +1,10 @@
 import './bootstrap';
 
+
 import Alpine from 'alpinejs';
+
+import '../css/main.css';
+
 
 window.Alpine = Alpine;
 
