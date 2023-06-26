@@ -2,17 +2,26 @@
 
 namespace App\Http\Services;
 
+use Illuminate\Support\Facades\File;
+
 class FileService
 {
 
+    /**
+     * @param $file
+     * @return string
+     */
     public static function uploadFile($file)
     {
         $filename = date('YmdHi') . $file->getClientOriginalName();
         $file->move(public_path('images'), $filename);
-        $data['pic']= $filename;
+        $data['pic'] = $filename;
         return $filename;
     }
 
+    /**
+     * @param $image_name
+     */
     public static function removeFile($image_name)
     {
         $image_path = public_path('images/'.$image_name);

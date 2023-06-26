@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateProductRequest extends FormRequest
+class UpdateCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,19 +21,10 @@ class UpdateProductRequest extends FormRequest
      */
     public function rules(): array
     {
-
-        $this->request->set('is_active', $this->request->getBoolean('is_active'));
-        $this->request->set('in_stock',$this->request->getBoolean('in_stock'));
-
-        $this->request->remove('_token');
         return [
+            'id' => 'required|numeric',
             'name' => 'min:2|max:255',
-            'price' => 'numeric',
-            'in_stock' => 'boolean',
-            'is_active' => 'boolean',
-            'quantity' => 'numeric',
-            'pic' => 'image|mimes:png,jpg,jpeg|max:2048',
-            'categories' => 'required'
+            'parent_id' => 'numeric'
         ];
     }
 }

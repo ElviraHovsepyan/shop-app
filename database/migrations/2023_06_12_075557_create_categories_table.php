@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('parent_id')->nullable();
             $table->string('path')->nullable();
+            $table->softDeletes();
         });
     }
 

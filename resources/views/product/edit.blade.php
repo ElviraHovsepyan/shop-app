@@ -74,6 +74,26 @@
 
                             </div>
 
+                            <h5 class="font-semibold text-xl text-gray-800 leading-tight">
+                                {{ __('Choose categories') }}
+                            </h5>
+                            <div>
+                                <input type="hidden" id="categories" name="categories">
+                                <ul class="list-group">
+                                    @foreach ($categories as $category)
+                                        <li class="list-group-item">
+                                            <input name="checkboxes" type="checkbox" data-id="{{ $category->id }}" {{ in_array($category->id, $product_cats) ? "checked" : ''}} class="mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"/>
+                                            <span style="margin-left: 10px">{{ $category->name }}</span>
+                                        </li>
+                                        <ul style="margin-left: 40px" class="list-group">
+                                            @foreach ($category->childrenCategories as $childCategory)
+                                                @include('category/child-category', ['child_category' => $childCategory, 'type' => 'checkbox',  'product_cats' => $product_cats,])
+                                            @endforeach
+                                        </ul>
+                                    @endforeach
+                                </ul>
+                            </div>
+
 
                             <div class="flex items-center gap-4">
                                 <x-primary-button>Save</x-primary-button>

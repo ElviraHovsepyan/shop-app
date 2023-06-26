@@ -10,20 +10,6 @@
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     <section>
-                        <header>
-                            {{--<h2 class="text-lg font-medium text-gray-900">--}}
-                                {{--{{ __('Profile Information') }}--}}
-                            {{--</h2>--}}
-
-                            {{--<p class="mt-1 text-sm text-gray-600">--}}
-                                {{--{{ __("Update your account's profile information and email address.") }}--}}
-                            {{--</p>--}}
-                        </header>
-
-                        {{--<form id="send-verification" method="post" action="{{ route('verification.send') }}">--}}
-                            {{--@csrf--}}
-                        {{--</form>--}}
-
                         <form method="post" action="{{ route('products.store') }}" class="mt-6 space-y-6"  enctype="multipart/form-data">
                             @csrf
 
@@ -66,6 +52,25 @@
                                 <x-input-error class="mt-2" :messages="$errors->get('pic')" />
 
                             </div>
+                            <h5 class="font-semibold text-xl text-gray-800 leading-tight">
+                                {{ __('Choose categories') }}
+                            </h5>
+                            <div>
+                                <input type="hidden" id="categories" name="categories">
+                                <ul class="list-group">
+                                    @foreach ($categories as $category)
+                                        <li class="list-group-item">
+                                            <input id="in_stock" name="checkboxes" type="checkbox" data-id="{{ $category->id }}" class="mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"/>
+                                            <span style="margin-left: 10px">{{ $category->name }}</span>
+                                        </li>
+                                        <ul style="margin-left: 40px" class="list-group">
+                                            @foreach ($category->childrenCategories as $childCategory)
+                                                @include('category/child-category', ['child_category' => $childCategory, 'type' => 'checkbox'])
+                                            @endforeach
+                                        </ul>
+                                    @endforeach
+                                </ul>
+                            </div>
 
                             <div class="flex items-center gap-4">
                                 <x-primary-button>Save</x-primary-button>
@@ -74,18 +79,6 @@
                     </section>
                 </div>
             </div>
-
-            {{--<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">--}}
-                {{--<div class="max-w-xl">--}}
-                    {{--@include('profile.partials.update-password-form')--}}
-                {{--</div>--}}
-            {{--</div>--}}
-
-            {{--<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">--}}
-                {{--<div class="max-w-xl">--}}
-                    {{--@include('profile.partials.delete-user-form')--}}
-                {{--</div>--}}
-            {{--</div>--}}
         </div>
     </div>
 
