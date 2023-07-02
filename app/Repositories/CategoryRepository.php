@@ -5,6 +5,8 @@ namespace App\Repositories;
 
 use App\Models\Category;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class CategoryRepository.
@@ -12,32 +14,32 @@ use App\Repositories\Interfaces\CategoryRepositoryInterface;
 class CategoryRepository extends BasicRepository implements CategoryRepositoryInterface
 {
 
-    private $category;
+    protected $model;
 
     /**
      * CategoryRepository constructor.
-     * @param Category $category
+     * @param Category $model
      */
-    public function __construct(Category $category)
+    public function __construct(Category $model)
     {
-        parent::__construct($category);
-        $this->category = $category;
+        parent::__construct($model);
+        $this->model = $model;
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|mixed
      */
-    public function getAll()
+    public function getAll(): Collection
     {
-        return $this->category->with('parent')->get();
+        return $this->model->with('parent')->get();
     }
 
     /**
-     * @return mixed
+     * @return Collection
      */
-    public function getCategoriesTree()
+    public function getCategoriesTree(): Collection
     {
-        return $this->category->whereNull('parent_id')
+        return $this->model->whereNull('parent_id')
             ->with('childrenCategories')
             ->get();
     }

@@ -17,7 +17,6 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, $roles): Response
     {
-//        dd(Auth::user()->role->name);
         $roles = explode('|', $roles);
         $check = false;
         foreach($roles as $role){

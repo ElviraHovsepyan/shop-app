@@ -6,13 +6,14 @@ namespace App\Repositories;
 //use Your Model
 use App\Models\Product;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class CategoryRepository.
+ * Class ProductRepository.
  */
 class ProductRepository extends BasicRepository implements ProductRepositoryInterface
 {
-    private $model;
+    protected $model;
 
     /**
      * ProductRepository constructor.
@@ -28,15 +29,8 @@ class ProductRepository extends BasicRepository implements ProductRepositoryInte
      * @param $productId
      * @param $categoryId
      */
-    public function attachCategory($productId, $categoryId)
+    public function attachCategory(int $productId, int $categoryId)
     {
-//        $product = $this->find($productId);
-//        $exists = $product->categories->contains($categoryId);
-
-//        $attached = $this->find($productId)->whereHas( 'categories', function ($query) use ($categoryId){
-//           $query->where('category_id', $categoryId);
-//        })->first();
-
         $this->find($productId)->categories()->attach($productId, ['category_id' => $categoryId]);
     }
 
@@ -44,7 +38,7 @@ class ProductRepository extends BasicRepository implements ProductRepositoryInte
      * @param $productId
      * @param $categoryIds
      */
-    public function syncCategories($productId, $categoryIds)
+    public function syncCategories(int $productId, array $categoryIds)
     {
         $this->find($productId)->categories()->sync($categoryIds);
     }
@@ -54,7 +48,7 @@ class ProductRepository extends BasicRepository implements ProductRepositoryInte
      * @param $id
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed|null
      */
-    public function find($id)
+    public function find(int $id): Model
     {
         return $this->model->with('categories')->find($id);
     }

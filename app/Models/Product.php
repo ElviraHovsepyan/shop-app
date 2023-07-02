@@ -20,6 +20,9 @@ class Product extends Model
         'pic'
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'products_categories');

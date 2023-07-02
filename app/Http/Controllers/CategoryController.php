@@ -2,48 +2,50 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Helpers\CategoryHelper;
 use App\Http\Requests\CreateCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\SuccessResource;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
+use App\Traits\CategoryTrait;
+use Illuminate\Routing\Redirector;
+use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
+
+    use CategoryTrait;
+
     private $categoryRepository;
-    private $categoryHelper;
 
     /**
      * CategoryController constructor.
      * @param CategoryRepositoryInterface $categoryRepository
-     * @param CategoryHelper $categoryHelper
      */
     public function __construct
     (
-        CategoryRepositoryInterface $categoryRepository,
-        CategoryHelper $categoryHelper
+        CategoryRepositoryInterface $categoryRepository
     )
     {
         $this->categoryRepository = $categoryRepository;
-        $this->categoryHelper = $categoryHelper;
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function index()
-    {
 
+    /**
+     * @return View
+     */
+    public function index(): View
+    {
         $categories = $this->categoryRepository->getAll();
+
         return view('category.list', [
             'categories' => $categories
         ]);
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
         $categories = $this->categoryRepository->getCategoriesTree();
 
@@ -56,25 +58,26 @@ class CategoryController extends Controller
      * @param CreateCategoryRequest $request
      * @return SuccessResource
      */
-    public function store(CreateCategoryRequest $request)
+    public function store(CreateCategoryRequest $request): SuccessResource
     {
         $data = $request->all();
-        $data['path'] = $this->categoryHelper->getCategoryPath($data['parent_id']);
+        $data['path'] = $this->getCategoryPath($data['parent_id']);
 
         $this->categoryRepository->create($data);
         $response = (object)[
             'status' => 200,
             'message' => 'Company Created Successfully',
         ];
+
         return new SuccessResource($response);
     }
 
 
     /**
-     * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @param int $id
+     * @return View
      */
-    public function edit($id)
+    public function edit(int $id): View
     {
         $category = $this->categoryRepository->find($id);
         $categories = $this->categoryRepository->getCategoriesTree();
@@ -89,11 +92,11 @@ class CategoryController extends Controller
      * @param UpdateCategoryRequest $request
      * @return SuccessResource
      */
-    public function update(UpdateCategoryRequest $request)
+    public function update(UpdateCategoryRequest $request): SuccessResource
     {
 
         $data = $request->all();
-        $data['path'] = $this->categoryHelper->getCategoryPath($data['parent_id']);
+        $data['path'] = $this->getCategoryPath($data['parent_id']);
 
         $this->categoryRepository->update($data, $request->id);
 
@@ -101,6 +104,7 @@ class CategoryController extends Controller
             'status' => 200,
             'message' => 'Company Updated Successfully',
         ];
+
         return new SuccessResource($response);
     }
 
@@ -108,9 +112,10 @@ class CategoryController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(int $id): Redirector
     {
         $this->categoryRepository->delete($id);
+
         return redirect('/categories');
     }
 }

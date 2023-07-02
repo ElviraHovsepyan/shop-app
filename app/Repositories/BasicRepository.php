@@ -4,28 +4,32 @@ namespace App\Repositories;
 
 
 use App\Repositories\Interfaces\BasicRepositoryInterface;
+use App\Traits\ListTrait;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 
 class BasicRepository implements BasicRepositoryInterface
 {
-    private $model;
+    protected $model;
 
+    use ListTrait;
+
+    /**
+     * BasicRepository constructor.
+     * @param Model $model
+     */
     public function __construct(Model $model)
     {
         $this->model = $model;
     }
 
-    /**
-     * @return string
-     *  Return the model
-     */
-    public function model()
-    {
-        //return YourModel::class;
-    }
 
-    public function find($id)
+    /**
+     * @param int $id
+     * @return Model
+     */
+    public function find(int $id)
     {
         return $this->model->find($id);
     }
@@ -34,7 +38,7 @@ class BasicRepository implements BasicRepositoryInterface
      * @param $data
      * @return mixed
      */
-    public function create($data)
+    public function create(array $data): Model
     {
         return $this->model->create($data);
     }
@@ -42,29 +46,29 @@ class BasicRepository implements BasicRepositoryInterface
     /**
      * @return mixed
      */
-    public function getAll()
+    public function getAll(): Collection
     {
         return $this->model->all();
     }
 
 
     /**
-     * @param $request
+     * @param $data
      * @param $id
      * @return mixed
      */
-    public function update($data, $id)
+    public function update(array $data, int $id)
     {
-        return $this->model->where('id', $id)->update($data);
+        $this->model->where('id', $id)->update($data);
     }
 
     /**
      * @param $id
      * @return mixed
      */
-    public function delete($id)
+    public function delete(int $id)
     {
-        return $this->model->where('id', $id)->delete();
+        $this->model->where('id', $id)->delete();
     }
 
 }

@@ -31,11 +31,12 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(ProductController::class)->group(function () {
         Route::get('/products', 'index')->name('products');
+        Route::post('/products/all', 'getFiltered')->name('products.filtered');
         Route::get('/products/create', 'create')->name('products.create');
         Route::get('/products/{id}', 'getOne')->name('products.get');
         Route::get('/products/edit/{id}', 'edit')->name('products.edit');
         Route::post('/products', 'store')->name('products.store');
-        Route::post('/products/id', 'update')->name('products.update');
+        Route::post('/products/{id}', 'update')->name('products.update');
         Route::get('/products/delete/{id}', 'destroy')->name('products.delete');
     });
 

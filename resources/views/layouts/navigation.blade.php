@@ -34,25 +34,25 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('categories') }}">Categories</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Filter By
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Name</a>
-                            <a class="dropdown-item" href="#">Price</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Quantity</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
+                    {{--<li class="nav-item dropdown">--}}
+                        {{--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
+                            {{--Filter By--}}
+                        {{--</a>--}}
+                        {{--<div class="dropdown-menu" aria-labelledby="navbarDropdown">--}}
+                            {{--<a class="dropdown-item" href="#">Name</a>--}}
+                            {{--<a class="dropdown-item" href="#">Price</a>--}}
+                            {{--<div class="dropdown-divider"></div>--}}
+                            {{--<a class="dropdown-item" href="#">Quantity</a>--}}
+                        {{--</div>--}}
+                    {{--</li>--}}
+                    {{--<li class="nav-item">--}}
                         {{--<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>--}}
-                    </li>
+                    {{--</li>--}}
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
+                {{--<form class="form-inline my-2 my-lg-0">--}}
+                    {{--<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">--}}
+                    {{--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>--}}
+                {{--</form>--}}
                 {{--</div>--}}
             </nav>
             <!-- Settings Dropdown -->
