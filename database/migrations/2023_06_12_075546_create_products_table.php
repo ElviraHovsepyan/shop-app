@@ -18,6 +18,7 @@ return new class extends Migration
             $table->boolean('in_stock')->default(false);
             $table->boolean('is_active')->default(false);
             $table->integer('quantity')->nullable();
+            $table->text('description')->nullable();
             $table->string('pic')->nullable();
             $table->softDeletes();
             $table->timestamps();

@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Repositories\BasicRepository;
 use App\Repositories\CategoryRepository;
+use App\Repositories\FilterGroupRepository;
 use App\Repositories\Interfaces\BasicRepositoryInterface;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
+use App\Repositories\Interfaces\FilterGroupRepositoryInterface;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Repositories\ProductRepository;
 use Illuminate\Auth\Events\Registered;
@@ -19,5 +21,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(BasicRepositoryInterface::class, BasicRepository::class);
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
         $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
+        $this->app->bind(FilterGroupRepositoryInterface::class, FilterGroupRepository::class);
     }
 }

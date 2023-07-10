@@ -6,7 +6,6 @@ namespace App\Repositories;
 use App\Models\Category;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class CategoryRepository.
@@ -14,7 +13,9 @@ use Illuminate\Database\Eloquent\Model;
 class CategoryRepository extends BasicRepository implements CategoryRepositoryInterface
 {
 
-    protected $model;
+    protected \Illuminate\Database\Eloquent\Model $model;
+
+    protected $fields = ['name'];
 
     /**
      * CategoryRepository constructor.
@@ -24,14 +25,6 @@ class CategoryRepository extends BasicRepository implements CategoryRepositoryIn
     {
         parent::__construct($model);
         $this->model = $model;
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|mixed
-     */
-    public function getAll(): Collection
-    {
-        return $this->model->with('parent')->get();
     }
 
     /**

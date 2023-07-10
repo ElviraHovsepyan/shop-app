@@ -14,12 +14,12 @@
 
                             {{--<h4 class="text-center my-3 pb-3">To Do App</h4>--}}
 
-                            <form class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2">
+                            <form method="post" action="{{ route('categories.filtered') }}" class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2" >
                                 <div class="col-6">
-                                    <div class="form-outline">
-                                        <input type="text" id="form1" class="form-control" />
-                                        {{--<label class="form-label" for="form1">Enter a task here</label>--}}
-                                    </div>
+                                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ old('search') }}" id="search">
+                                </div>
+                                <div class="col-2">
+                                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                                 </div>
 
                                 <div class="col-3">
@@ -29,7 +29,6 @@
                                 <div class="col-3">
                                     {{--<button type="submit" class="btn btn-warning">Get tasks</button>--}}
                                 </div>
-                            </form>
 
                             <table class="table mb-4">
                                 <thead>
@@ -53,20 +52,46 @@
                                     </td>
                                 </tr>
                                 @endforeach
-
-                                {{--<ul>--}}
-                                    {{--@foreach ($categories as $category)--}}
-                                        {{--<li>{{ $category->name }}</li>--}}
-                                        {{--<ul style="margin-left: 40px">--}}
-                                            {{--@foreach ($category->childrenCategories as $childCategory)--}}
-                                                {{--@include('category/child-category', ['child_category' => $childCategory])--}}
-                                            {{--@endforeach--}}
-                                        {{--</ul>--}}
-                                    {{--@endforeach--}}
-                                {{--</ul>--}}
-
                                 </tbody>
                             </table>
+                                @if($count > 1)
+
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                            <li class="page-item">
+                                                <button class="page-link"  type="submit" name="page" value="1" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                                    <span class="sr-only">Previous</span>
+                                                </button>
+                                            </li>
+                                            <li class="page-item">
+                                                <button class="page-link"  type="submit" name="page" value="{{ old('page') > 1 ? old('page') - 1 : 1 }}" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                    <span class="sr-only">Previous</span>
+                                                </button>
+                                            </li>
+
+                                            @for($x = 1; $x <= $count; $x++)
+                                                <li class="page-item {{ old('page', 1) == $x ? 'active' : ''}}"><button class="page-link" type="submit" name="page" value="{{ $x }}">{{ $x }}</button></li>
+                                            @endfor
+
+                                            <li class="page-item">
+                                                <button class="page-link"  type="submit" name="page" value="{{ old('page') < $count ? old('page') + 1 : $count }}" aria-label="Previous">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                    <span class="sr-only">Previous</span>
+                                                </button>
+                                            </li>
+                                            <li class="page-item">
+                                                <button class="page-link"  type="submit" name="page" value="{{ $count }}"  aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                                    <span class="sr-only">Next</span>
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </nav>
+
+                                @endif
+                            </form>
 
                         </div>
                     </div>

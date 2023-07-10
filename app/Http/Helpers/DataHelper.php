@@ -3,6 +3,8 @@
 namespace App\Http\Helpers;
 
 
+use Illuminate\Http\Request;
+
 class DataHelper
 {
 
@@ -11,14 +13,15 @@ class DataHelper
         'orderBy' => 'id',
         'limit' => 10,
         'offset' => '0',
-        'keyword' => ''
+        'keyword' => '',
+        'filters' => []
     ];
 
     /**
-     * @param bool $request
+     * @param Request|null $request
      * @return array
      */
-    public static function setListParams($request = false): array
+    public static function setListParams(Request $request = null): array
     {
         if (!$request) {
             return self::$data;
@@ -26,6 +29,10 @@ class DataHelper
 
         if ($request->has('perPage')) {
             self::$data['limit'] = $request->perPage;
+        }
+
+        if ($request->has('filters_value') && !empty($request->filters_value)) {
+            self::$data['filters'] = explode(',', $request->filters_value) ;
         }
 
         if ($request->has('page')) {
@@ -41,10 +48,18 @@ class DataHelper
         if ($request->has('search') && !empty($request->search)) {
             self::$data['keyword'] = $request->search;
         }
-
         return self::$data;
     }
 
-    
+    /**
+     * @param string $input
+     * @return array
+     */
+    public static function getArray(string $input): array
+    {
+        return explode(',', $input);
+    }
+
+
 
 }

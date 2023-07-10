@@ -40,7 +40,7 @@
                                         <input id="in_stock" name="checkboxes" type="radio" data-id="{{ $category->id }}" class="mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"/>
                                         <span style="margin-left: 10px">{{ $category->name }}</span>
                                     </li>
-                                    <ul style="margin-left: 40px" class="list-group">
+                                    <ul style="margin-left: 40px" class="list-group root-category">
                                         @foreach ($category->childrenCategories as $childCategory)
                                             @include('category/child-category', ['child_category' => $childCategory, 'type' => 'radio'])
                                         @endforeach

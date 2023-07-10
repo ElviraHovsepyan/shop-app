@@ -11,7 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class BasicRepository implements BasicRepositoryInterface
 {
-    protected $model;
+    protected Model $model;
+
+    protected $fields;
 
     use ListTrait;
 
@@ -27,15 +29,16 @@ class BasicRepository implements BasicRepositoryInterface
 
     /**
      * @param int $id
+     * @param array $relations
      * @return Model
      */
-    public function find(int $id)
+    public function find(int $id, array $relations = []): Model
     {
-        return $this->model->find($id);
+        return $this->model->with($relations)->find($id);
     }
 
     /**
-     * @param $data
+     * @param array $data
      * @return mixed
      */
     public function create(array $data): Model
@@ -43,30 +46,35 @@ class BasicRepository implements BasicRepositoryInterface
         return $this->model->create($data);
     }
 
+
     /**
-     * @return mixed
+     * @param array $relations
+     * @return Collection
      */
-    public function getAll(): Collection
+    public function getAll(array $relations = []): Collection
     {
-        return $this->model->all();
+        return $this->model->with($relations)->get();
     }
 
 
     /**
-     * @param $data
-     * @param $id
-     * @return mixed
+     * @param array $data
+     * @param int $id
+     * @return Model
      */
-    public function update(array $data, int $id)
+    public function update(array $data, int $id): Model
     {
-        $this->model->where('id', $id)->update($data);
+        return  tap($this->model, function () use ($id, $data) {
+            $this->model->where('id', $id)->update($data);
+        });
     }
 
+
     /**
-     * @param $id
-     * @return mixed
+     * @param int $id
+     * @return void
      */
-    public function delete(int $id)
+    public function delete(int $id): void
     {
         $this->model->where('id', $id)->delete();
     }

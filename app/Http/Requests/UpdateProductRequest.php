@@ -33,7 +33,8 @@ class UpdateProductRequest extends FormRequest
             'is_active' => 'boolean',
             'quantity' => 'numeric',
             'pic' => 'image|mimes:png,jpg,jpeg|max:2048',
-            'categories' => 'required'
+            'categories' => 'required',
+            'filters_value' => 'required|string|min:1'
         ];
     }
 }

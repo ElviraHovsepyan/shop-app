@@ -13,7 +13,10 @@ class RoleMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param Request $request
+     * @param Closure $next
+     * @param $roles
+     * @return Response
      */
     public function handle(Request $request, Closure $next, $roles): Response
     {
@@ -26,6 +29,7 @@ class RoleMiddleware
         }
         if(!$check) {
             return response()->json(['message' => 'Invalid permissions']);
+//            return redirect('/login');
         }
 
         return $next($request);

@@ -7,8 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
+            <div class="container">
                     <section>
                         <header>
                             {{--<h2 class="text-lg font-medium text-gray-900">--}}
@@ -26,48 +25,64 @@
 
                         <form method="post" action="{{ route('products.update', ['id' => $product->id]) }}" class="mt-6 space-y-6"  enctype="multipart/form-data">
                             @csrf
-                            {{--@method('patch')--}}
 
-                            <div>
+                            <div class="row justify-content-center" id="basic-example-filters" data-mdb-items=".basic-example-item" data-mdb-auto-filter="true">
+                                @foreach($filters as $filter_group)
+                                    <div class="col-md-3" data-mdb-filter="color">
+                                        <span class="fa-lg font-bold">{{ $filter_group->name }}</span>
+                                        @foreach($filter_group->filters as $filter)
+                                            <div class="form-check mt-3">
+                                                <input class="form-check-input" type="checkbox" name="filters" data-id="{{ $filter->id }}" {{ in_array($filter->id, $filter_ids) ? "checked" : ''}}>
+                                                <label class="form-check-label" for="inlineRadio1">{{ $filter->name }}</label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endforeach
+
+                                <input type="hidden" name="filters_value" id="filters_value" value="{{ old('filters_value') }}" >
+
+                            </div>
+                        <div class="row">
+                            <div class="col-md-6">
                                 <x-input-label for="name" :value="__('Name')" />
                                 <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $product->name)" required autofocus autocomplete="name" />
                                 <x-input-error class="mt-2" :messages="$errors->get('name')" />
                             </div>
 
-                            <div>
+                            <div class="col-md-6">
                                 <x-input-label for="price" :value="__('Price')" />
                                 <x-text-input id="price" name="price" type="text" class="mt-1 block w-full" :value="old('price', $product->price)" required autocomplete="price" />
                                 <x-input-error class="mt-2" :messages="$errors->get('price')" />
 
                             </div>
 
-                            <div>
+                            <div class="col-md-6">
                                 <x-input-label for="is_active" :value="__('Is active')" />
                                 <input id="is_active" name="is_active" type="checkbox" {{ $product->is_active ? "checked" : "" }} class="mt-1 block border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" />
                                 <x-input-error class="mt-2" :messages="$errors->get('is_active')" />
 
                             </div>
 
-                            <div>
+                            <div class="col-md-6">
                                 <x-input-label for="in_stock" :value="__('In stock')" />
                                 <input id="in_stock" name="in_stock" type="checkbox" {{ $product->in_stock ? "checked" : "" }} class="mt-1 block border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"/>
                                 <x-input-error class="mt-2" :messages="$errors->get('in_stock')" />
 
                             </div>
 
-                            <div>
+                            <div class="col-md-6">
                                 <x-input-label for="quantity" :value="__('Quantity')" />
                                 <x-text-input id="quantity" name="quantity" type="text" class="mt-1 block w-full" :value="old('quantity', $product->quantity)" required autocomplete="quantity" />
                                 <x-input-error class="mt-2" :messages="$errors->get('quantity')" />
                             </div>
 
 
-                            <div class="col-lg-12">
+                            <div class="col-lg-8">
                                     <img src="{{ asset('images/'.$product->pic) }}" alt="">
                             </div>
 
 
-                            <div>
+                            <div class="col-md-6">
                                 <x-input-label for="pic" :value="__('Pic')" />
                                 <input id="pic" name="pic" type="file" class="mt-1 block w-full" />
                                 <x-input-error class="mt-2" :messages="$errors->get('pic')" />
@@ -77,7 +92,7 @@
                             <h5 class="font-semibold text-xl text-gray-800 leading-tight">
                                 {{ __('Choose categories') }}
                             </h5>
-                            <div>
+                            <div class="col-md-6">
                                 <input type="hidden" id="categories" name="categories">
                                 <ul class="list-group">
                                     @foreach ($categories as $category)
@@ -85,7 +100,7 @@
                                             <input name="checkboxes" type="checkbox" data-id="{{ $category->id }}" {{ in_array($category->id, $product_cats) ? "checked" : ''}} class="mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"/>
                                             <span style="margin-left: 10px">{{ $category->name }}</span>
                                         </li>
-                                        <ul style="margin-left: 40px" class="list-group">
+                                        <ul style="margin-left: 40px" class="list-group root-category">
                                             @foreach ($category->childrenCategories as $childCategory)
                                                 @include('category/child-category', ['child_category' => $childCategory, 'type' => 'checkbox',  'product_cats' => $product_cats,])
                                             @endforeach
@@ -94,13 +109,12 @@
                                 </ul>
                             </div>
 
-
+                        </div>
                             <div class="flex items-center gap-4">
                                 <x-primary-button>Save</x-primary-button>
                             </div>
                         </form>
                     </section>
-                </div>
             </div>
 
         </div>

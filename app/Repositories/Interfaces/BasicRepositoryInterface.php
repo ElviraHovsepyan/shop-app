@@ -12,12 +12,13 @@ interface BasicRepositoryInterface
 
     /**
      * @param int $id
+     * @param array $relations
      * @return Model
      */
-    public function find(int $id);
+    public function find(int $id, array $relations = []): Model;
 
     /**
-     * @param $data
+     * @param array $data
      * @return mixed
      */
     public function create(array $data): Model;
@@ -27,17 +28,18 @@ interface BasicRepositoryInterface
      */
     public function getAll(): Collection;
 
-    /**
-     * @param $request
-     * @param $id
-     * @return mixed
-     */
-    public function update(array $data, int $id);
 
     /**
-     * @param $id
-     * @return mixed
+     * @param array $data
+     * @param int $id
+     * @return Model
      */
-    public function delete(int $id);
+    public function update(array $data, int $id): Model;
+
+    /**
+     * @param int $id
+     * @return void
+     */
+    public function delete(int $id): void;
 
 }

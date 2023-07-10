@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Helpers\DataHelper;
 use App\Http\Requests\CreateCategoryRequest;
+use App\Http\Requests\ListRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\SuccessResource;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Traits\CategoryTrait;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
 
@@ -15,7 +18,7 @@ class CategoryController extends Controller
 
     use CategoryTrait;
 
-    private $categoryRepository;
+    private CategoryRepositoryInterface $categoryRepository;
 
     /**
      * CategoryController constructor.
@@ -31,14 +34,34 @@ class CategoryController extends Controller
 
 
     /**
+     * @param Request $request
      * @return View
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $categories = $this->categoryRepository->getAll();
+        $data = DataHelper::setListParams();
+        $categoriesData = $this->categoryRepository->getList($data);
+        $request->session()->flush();
 
         return view('category.list', [
-            'categories' => $categories
+            'categories' => $categoriesData['list'],
+            'count' => $categoriesData['count'],
+        ]);
+    }
+
+    /**
+     * @param ListRequest $request
+     * @return View
+     */
+    public function getFiltered(ListRequest $request): View
+    {
+        $request->flash();
+        $data = DataHelper::setListParams($request);
+        $categoriesData = $this->categoryRepository->getList($data);
+
+        return view('category.list', [
+            'categories' => $categoriesData['list'],
+            'count' => $categoriesData['count']
         ]);
     }
 
@@ -109,8 +132,8 @@ class CategoryController extends Controller
     }
 
     /**
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @param int $id
+     * @return Redirector
      */
     public function destroy(int $id): Redirector
     {

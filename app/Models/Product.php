@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
@@ -20,11 +21,20 @@ class Product extends Model
         'pic'
     ];
 
+
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function categories()
+    public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'products_categories');
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function filters(): BelongsToMany
+    {
+        return $this->belongsToMany(Filter::class, 'products_filters');
     }
 }

@@ -13,7 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ProductRepository extends BasicRepository implements ProductRepositoryInterface
 {
-    protected $model;
+    protected Model $model;
+    protected $fields = ['name', 'description'];
 
     /**
      * ProductRepository constructor.
@@ -26,31 +27,22 @@ class ProductRepository extends BasicRepository implements ProductRepositoryInte
     }
 
     /**
-     * @param $productId
-     * @param $categoryId
+     * @param int $productId
+     * @param array $categoryIds
      */
-    public function attachCategory(int $productId, int $categoryId)
-    {
-        $this->find($productId)->categories()->attach($productId, ['category_id' => $categoryId]);
-    }
-
-    /**
-     * @param $productId
-     * @param $categoryIds
-     */
-    public function syncCategories(int $productId, array $categoryIds)
+    public function syncCategories(int $productId, array $categoryIds): void
     {
         $this->find($productId)->categories()->sync($categoryIds);
     }
 
-
     /**
-     * @param $id
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|mixed|null
+     * @param int $productId
+     * @param array $filterIds
+     * @return void
      */
-    public function find(int $id): Model
+    public function syncFilters(int $productId, array $filterIds): void
     {
-        return $this->model->with('categories')->find($id);
+        $this->find($productId)->filters()->sync($filterIds);
     }
 
 }

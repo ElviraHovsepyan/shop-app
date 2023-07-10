@@ -53,3 +53,24 @@ function setCategoriesValue() {
     });
     $('#categories').val(arr);
 }
+
+$('input[name="filters"]').change(function() {
+    setFiltersValue();
+});
+
+function setFiltersValue() {
+    let arr = [];
+    $('input[name="filters"]:checked').each(function () {
+
+        arr.push($(this).data('id'));
+    });
+
+    $('#filters_value').val(arr);
+}
+
+$('.list-group-item').click(function (){
+    $(this).next('.list-group').toggle();
+});
+
+$('.root-category').hide();
+

@@ -22,9 +22,10 @@ class ListRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sort' => 'string|min:2|max:255|nullable',
+            'sort' => 'string|min:2|max:255',
             'search' => 'string|nullable',
-            'page' => 'string|nullable'
+            'page' => 'numeric|min:1',
+            'filters_value' => 'string|nullable'
         ];
     }
 }
