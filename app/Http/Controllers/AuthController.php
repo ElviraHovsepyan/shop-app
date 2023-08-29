@@ -36,7 +36,11 @@ class AuthController extends Controller
         $response = (object)[
             'status' => 200,
             'message' => 'User Created Successfully',
-            'token' => $user->createToken("API TOKEN")->plainTextToken
+            'token' => $user->createToken("API TOKEN")->plainTextToken,
+            'user' => [
+                'name' => $user->name,
+                'email' => $user->email
+            ]
         ];
         return new SuccessResource($response);
     }
@@ -55,7 +59,8 @@ class AuthController extends Controller
         }
 
         if (!Auth::attempt($request->only(['email', 'password']))) {
-            return new ErrorResource((object)['code' => 401, 'message' => 'Email & Password does not match with our record.']);
+            return (new ErrorResource((object)['code' => 401, 'message' => 'Email & Password does not match with our record.']))->response()
+                ->setStatusCode(401);
         }
 
         $user = User::where('email', $request->email)->first();
@@ -63,14 +68,13 @@ class AuthController extends Controller
         $response = (object)[
             'status' => 200,
             'message' => 'User Logged In Successfully',
-            'token' => $user->createToken("API TOKEN")->plainTextToken
+            'token' => $user->createToken("API TOKEN")->plainTextToken,
+            'user' => [
+                'name' => $user->name,
+                'email' => $user->email
+            ]
         ];
         return new SuccessResource($response);
-    }
-
-    public function test()
-    {
-        return '12345';
     }
 
     public function logout(Request $request)

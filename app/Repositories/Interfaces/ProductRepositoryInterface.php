@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Interfaces;
 
+use Illuminate\Database\Eloquent\Collection;
+
 interface ProductRepositoryInterface extends BasicRepositoryInterface
 {
 
@@ -19,6 +21,12 @@ interface ProductRepositoryInterface extends BasicRepositoryInterface
      * @return void
      */
     public function syncFilters(int $productId, array $filterIds): void;
+
+    /**
+     * @param $user_id
+     * @return Collection
+     */
+    public function getBasketItems($user_id): Collection;
 
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ListRequest extends FormRequest
@@ -17,7 +18,7 @@ class ListRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
@@ -25,7 +26,9 @@ class ListRequest extends FormRequest
             'sort' => 'string|min:2|max:255',
             'search' => 'string|nullable',
             'page' => 'numeric|min:1',
-            'filters_value' => 'string|nullable'
+            'filters_value' => 'string|nullable',
+            'price' => 'string|nullable',
+            'category' => 'numeric|nullable'
         ];
     }
 }

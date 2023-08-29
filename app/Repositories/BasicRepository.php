@@ -30,9 +30,9 @@ class BasicRepository implements BasicRepositoryInterface
     /**
      * @param int $id
      * @param array $relations
-     * @return Model
+     * @return Model|null
      */
-    public function find(int $id, array $relations = []): Model
+    public function find(int $id, array $relations = []): Model|null
     {
         return $this->model->with($relations)->find($id);
     }

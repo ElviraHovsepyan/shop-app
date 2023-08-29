@@ -19,6 +19,7 @@ class Category extends Model
         'path'
     ];
 
+    protected $with = ['categories'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

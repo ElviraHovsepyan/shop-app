@@ -14,7 +14,9 @@ class DataHelper
         'limit' => 10,
         'offset' => '0',
         'keyword' => '',
-        'filters' => []
+        'filters' => [],
+        'price' => [],
+        'categories' => [],
     ];
 
     /**
@@ -47,6 +49,14 @@ class DataHelper
 
         if ($request->has('search') && !empty($request->search)) {
             self::$data['keyword'] = $request->search;
+        }
+
+        if ($request->has('price') && !empty($request->price)) {
+            self::$data['price'] = explode(',', $request->price);
+        }
+
+        if ($request->has('categories') && !empty($request->categories)) {
+            self::$data['categories'] = $request->categories;
         }
         return self::$data;
     }

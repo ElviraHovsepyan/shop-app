@@ -13,9 +13,9 @@ interface BasicRepositoryInterface
     /**
      * @param int $id
      * @param array $relations
-     * @return Model
+     * @return Model|null
      */
-    public function find(int $id, array $relations = []): Model;
+    public function find(int $id, array $relations = []): Model|null;
 
     /**
      * @param array $data

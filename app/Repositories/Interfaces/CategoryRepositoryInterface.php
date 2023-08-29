@@ -12,4 +12,10 @@ interface CategoryRepositoryInterface extends BasicRepositoryInterface
      */
     public function getCategoriesTree(): Collection;
 
+    /**
+     * @param $category_id
+     * @return array
+     */
+    public function getCategoriesArray($category_id): array;
+
 }

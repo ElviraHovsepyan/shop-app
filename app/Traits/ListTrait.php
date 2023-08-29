@@ -36,7 +36,20 @@ trait ListTrait
             });
         }
 
+        if (!empty($data['price'])) {
+             $query = $query->whereRaw('CAST(price as DECIMAL(8,2)) >= '.  $data['price'][0])
+                ->whereRaw('CAST(price as DECIMAL(8,2)) <= '.  $data['price'][1]);
+        }
+
+        if (!empty($data['categories'])) {
+
+            $query = $query->whereHas('categories', function ($query) use ($data)  {
+                $query->whereIn('category_id', $data['categories']);
+            });
+        }
+
         $count = $query->count();
+//        dd($count);
 
 
         if ($data['orderBy'] == 'price') {
