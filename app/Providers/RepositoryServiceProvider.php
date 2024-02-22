@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Repositories\AddressRepository;
 use App\Repositories\BasicRepository;
 use App\Repositories\BasketRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\CountryRepository;
 use App\Repositories\FilterGroupRepository;
+use App\Repositories\Interfaces\AddressRepositoryInterface;
 use App\Repositories\Interfaces\BasicRepositoryInterface;
 use App\Repositories\Interfaces\BasketRepositoryInterface;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
@@ -28,5 +30,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(FilterGroupRepositoryInterface::class, FilterGroupRepository::class);
         $this->app->bind(BasketRepositoryInterface::class, BasketRepository::class);
         $this->app->bind(CountryRepositoryInterface::class, CountryRepository::class);
+        $this->app->bind(AddressRepositoryInterface::class, AddressRepository::class);
     }
 }

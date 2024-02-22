@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\BasketController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\CountryController;
@@ -56,6 +58,19 @@ Route::middleware('auth:sanctum')->group( function () {
         Route::get('/countries', 'index')->name('countries');
 
     });
+
+    Route::controller(AddressController::class)->group(function () {
+        Route::post('/addresses/getOne', 'getOne')->name('addresses.get');
+        Route::post('/addresses', 'store')->name('address.store');
+
+    });
+
+    Route::controller(OrderController::class)->group(function () {
+        Route::post('/orders', 'store')->name('orders.store');
+
+    });
+
+
 
 
 
